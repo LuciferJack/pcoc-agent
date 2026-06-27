@@ -42,7 +42,7 @@ C — Calibrate    ★新   新/改动 skill 跑黄金用例做 AB 对比
 ## 安装
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/<your-handle>/pcoc-agent/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/LuciferJack/pcoc-agent/main/install.sh | bash
 ```
 
 然后在 Claude Code 里：

@@ -1,109 +1,146 @@
-# How to publish this to GitHub
+# 推到 LuciferJack/pcoc-agent
 
-This file gives you three different paths to publish pcoc-agent depending
-on what tools you have. Delete this file after you push — it's just
-operator instructions.
+handle `LuciferJack` 已经烧进 `install.sh`、`README.md`、`README.zh-CN.md`、
+`SECURITY.md`。下面是把这个仓库推到 https://github.com/LuciferJack/pcoc-agent
+的三条路径，选一个。推完之后**把这个文件删掉**——它是操作指南，不是仓库内容。
 
-## Path A — easiest, uses `gh` CLI (recommended)
-
-If you have GitHub CLI installed (`brew install gh` on Mac, then `gh
-auth login` once):
+## 路径 A：用 `gh` CLI（最快，推荐）
 
 ```bash
 cd pcoc-agent
-gh repo create pcoc-agent --public --source=. --remote=origin --push
+gh repo create LuciferJack/pcoc-agent \
+    --public \
+    --source=. \
+    --remote=origin \
+    --push \
+    --description "Phase-locked, Calibrated, Open-source Cognitive agent harness for Claude Code and Codex"
 ```
 
-That's it. The repo is created, this directory is set as the source,
-the current commit is pushed.
+一条命令搞定：建仓 + 加 remote + 推送。
 
-If you want it private instead, swap `--public` for `--private`.
+如果想私有：把 `--public` 改成 `--private`。
 
-## Path B — using the GitHub web UI + git CLI
+## 路径 B：Web UI + git CLI
 
-1. Go to https://github.com/new
+1. 浏览器打开 https://github.com/new
 2. Repository name: `pcoc-agent`
 3. Description: `Phase-locked, Calibrated, Open-source Cognitive agent harness for Claude Code and Codex`
-4. Public (or private — your call)
-5. **Do NOT** check "Add a README", "Add .gitignore", or "Choose a license"
-   — this repo already has all three and an initial commit
-6. Click "Create repository"
+4. Public（或 Private，看你）
+5. **不要勾**「Add a README / Add .gitignore / Choose a license」——这三个仓库里都有了
+6. Create repository
 
-Then in your terminal:
+然后在 Mac 终端：
 
 ```bash
 cd pcoc-agent
-git remote add origin https://github.com/<YOUR-HANDLE>/pcoc-agent.git
+git remote add origin https://github.com/LuciferJack/pcoc-agent.git
 git push -u origin main
 ```
 
-(Replace `<YOUR-HANDLE>` with your GitHub username.)
-
-## Path C — using SSH instead of HTTPS
-
-Same as Path B, but the remote URL is:
+## 路径 C：SSH（如果你 Mac 上 ssh key 已经配过）
 
 ```bash
-git remote add origin git@github.com:<YOUR-HANDLE>/pcoc-agent.git
+cd pcoc-agent
+git remote add origin git@github.com:LuciferJack/pcoc-agent.git
+git push -u origin main
 ```
 
-## Recommended post-push setup
-
-After the push, in the GitHub repo settings:
-
-1. **Topics** (top of repo page → ⚙ next to "About"): add `claude-code`,
-   `agent-harness`, `claude`, `codex`, `ai-agents`, `privacy`,
-   `mcp-server` (if applicable)
-
-2. **Security**:
-   - Settings → Code security and analysis → enable **Secret scanning**
-     (free for public repos)
-   - Settings → Code security and analysis → enable **Dependency
-     graph** and **Dependabot alerts**
-
-3. **Branch protection** for `main`:
-   - Settings → Branches → Add rule → branch name pattern: `main`
-   - Require PR before merging
-   - Require status checks to pass (once you add CI)
-
-4. **CI** (optional, recommended): add a `.github/workflows/check.yml`
-   that runs `scripts/check-no-secrets.sh` on every PR — this is your
-   automated guardrail against secret leaks from contributors.
-
-## Before you push: final checklist
+## 推送前的最后一遍检查（30 秒）
 
 ```bash
-# Run from inside pcoc-agent/
+cd pcoc-agent
+
+# 1. 没有泄密
 bash scripts/check-no-secrets.sh --all
+# 预期输出：✓ No secrets found.
 
-# Confirm git status is clean of personal content
-git status --ignored --short | grep "^!!"   # should be empty in fresh install
-git ls-files | xargs grep -l "TODO" 2>/dev/null   # check for forgotten TODOs
+# 2. 没有忘记的 placeholder
+grep -rn "YOUR-HANDLE\|<your-handle>\|<YOUR-HANDLE>\|<owner>" \
+    --include="*.md" --include="*.sh" --include="*.json" .
+# 预期输出：无（grep 退出码 1）
 
-# Confirm .gitignore is doing its job
-ls overlays/   # only example/ and README.md should be tracked
-git check-ignore overlays/my-work 2>/dev/null && echo "✓ personal overlays gitignored"
+# 3. overlays/ 里只有 example/ 在 tracking
+git ls-files overlays/
+# 预期输出：仅 overlays/README.md、overlays/example/README.md、overlays/example/overlay.yaml
 ```
 
-If `check-no-secrets.sh` passes and the gitignore confirmation prints
-the checkmark, you're safe to push.
+三项都过了，再推。
 
-## Update the install URL after pushing
+## 推完之后建议立刻做这几件事
 
-Once your repo is up, edit `install.sh`:
+在 https://github.com/LuciferJack/pcoc-agent 仓库页面：
+
+### 1. Topics（让人能搜到你）
+点 ⚙ 旁边的 Topics 框，填：
+```
+claude-code  agent-harness  ai-agents  privacy
+codex  riper-5  calibration  llm-agent
+```
+
+### 2. 开启安全功能
+Settings → Code security and analysis：
+- ✅ Secret scanning（公开仓库免费）
+- ✅ Push protection
+- ✅ Dependency graph
+- ✅ Dependabot alerts
+
+### 3. About 区域填一下
+点仓库右上角的 ⚙：
+- Website: 留空（或填 docs 链接）
+- Topics: 见上
+- Description: 仓库描述
+
+### 4. 把 default branch 锁一锁（可选，建仓初期可以不做）
+Settings → Branches → Add branch protection rule：
+- Pattern: `main`
+- Require pull request before merging
+- Require status checks（等你接了 CI 再开）
+
+## 加一份 CI（可选，但强烈建议）
+
+新建 `.github/workflows/check.yml`：
+
+```yaml
+name: pcoc check
+on: [push, pull_request]
+jobs:
+  no-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run secret check
+        run: bash scripts/check-no-secrets.sh --all
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Node hook syntax
+        run: for f in .claude/hooks/*.cjs; do node --check "$f"; done
+      - name: Python ab_runner syntax
+        run: python3 -m py_compile calibration/ab_runner.py
+      - name: Shell scripts syntax
+        run: for f in scripts/*.sh install.sh; do bash -n "$f"; done
+```
+
+这样每次有 PR 都会自动跑 secret 扫描 + 语法检查。
+
+## 删掉这个文件
+
+推上去之后：
 
 ```bash
-sed -i.bak "s|YOUR-HANDLE|<your-actual-handle>|g" install.sh
-git add install.sh && git commit -m "chore: set install.sh repo URL" && git push
-rm install.sh.bak
+cd pcoc-agent
+git rm PUBLISH-TO-GITHUB.md
+git commit -m "chore: remove publish instructions (already published)"
+git push
 ```
 
-That way users who hit the install line in the README get the right
-repo URL.
-
-## After publishing
-
-- Watch your own repo (Settings → Notifications)
-- Open issues in the GitHub project board for v0.2.0 plans
-- Star your own repo (yes — it puts it in your starred list, makes it
-  easy to find later)
+或者先留着也行——它对未来贡献者有点用，可以挪到 `docs/PUBLISHING.md`。

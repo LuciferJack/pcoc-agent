@@ -6,7 +6,7 @@
 # =============================================================================
 set -euo pipefail
 
-PCOC_REPO="${PCOC_REPO:-https://github.com/YOUR-HANDLE/pcoc-agent.git}"
+PCOC_REPO="${PCOC_REPO:-https://github.com/LuciferJack/pcoc-agent.git}"
 PCOC_BRANCH="${PCOC_BRANCH:-main}"
 TARGET_DIR="${1:-$(pwd)}"
 

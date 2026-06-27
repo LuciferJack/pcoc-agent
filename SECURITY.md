@@ -129,7 +129,7 @@ maintainer (address in the repo's GitHub profile) or open a private
 security advisory via GitHub:
 
 ```
-https://github.com/<owner>/pcoc-agent/security/advisories/new
+https://github.com/LuciferJack/pcoc-agent/security/advisories/new
 ```
 
 We aim to acknowledge within 72 hours.

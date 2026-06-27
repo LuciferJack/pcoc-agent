@@ -46,7 +46,7 @@ case set and surfaces deltas. A human says `pcoc.promote <skill>` (or
 ## Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/<your-handle>/pcoc-agent/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/LuciferJack/pcoc-agent/main/install.sh | bash
 ```
 
 Then in Claude Code:
