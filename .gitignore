@@ -1,0 +1,126 @@
+# =============================================================================
+# pcoc-agent .gitignore
+# Default-deny posture: anything that looks remotely like a credential, personal
+# overlay, or runtime state stays OUT of the public repo.
+# =============================================================================
+
+# ---------- Personal overlays (NEVER commit) ----------
+# Public repo ships only overlays/example/. All real personal overlays live
+# here but are git-ignored.
+overlays/*
+!overlays/example/
+!overlays/README.md
+!overlays/.gitkeep
+
+# ---------- Runtime state ----------
+memory/*.db
+memory/*.db-shm
+memory/*.db-wal
+memory/runtime/
+.pcoc-cache/
+.pcoc-runtime/
+.pcoc-backup/
+calibration/results/
+calibration/audit_log.local.md
+
+# ---------- Process workspace (your project artifacts stay local) ----------
+process/general-plans/active/*.md
+process/general-plans/completed/*.md
+process/general-plans/backlog/*.md
+process/features/*/
+process/context/*/all-*.local.md
+!process/general-plans/active/.gitkeep
+!process/general-plans/completed/.gitkeep
+!process/general-plans/backlog/.gitkeep
+!process/features/.gitkeep
+
+# ---------- Credentials / secrets (defense in depth) ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*_rsa
+*_rsa.pub
+*_ed25519
+*_ed25519.pub
+id_rsa*
+id_ed25519*
+known_hosts
+authorized_keys
+.ssh/
+.aws/
+.gnupg/
+secrets/
+secret/
+credentials/
+credential.json
+service-account*.json
+*.kubeconfig
+config.json.local
+*-secret.yaml
+*-secret.yml
+
+# Provider-specific
+.okx/
+okx_*.json
+okx_*.yaml
+binance_*.json
+3commas_*.json
+aws_*.csv
+gcp_*.json
+.anthropic/
+.openai/
+
+# ---------- User-defined sensitive content list (declared in PRIVACY.md) ----------
+.pcoc/sensitive-terms.local.txt
+.pcoc/sensitive-terms.*.local.txt
+.pcoc/private/
+
+# ---------- Logs ----------
+*.log
+logs/
+log/
+
+# ---------- OS / editor noise ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+*.swp
+*.swo
+.idea/
+.vscode/
+!.vscode/extensions.json
+*.iml
+
+# ---------- Language artifacts ----------
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+dist/
+build/
+*.tsbuildinfo
+
+# ---------- Skill drafts (not yet calibrated) ----------
+.claude/skills/*.draft/
+.claude/skills/_staging/
+
+# ---------- Anything explicitly marked local ----------
+*.local
+*.local.*
+LOCAL_*
+local_*

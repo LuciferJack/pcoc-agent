@@ -1,0 +1,58 @@
+{
+  "name": "pcoc-agent",
+  "version": "0.1.0",
+  "description": "Phase-locked, Calibrated, Open-source Cognitive agent harness for Claude Code and Codex.",
+  "license": "MIT",
+  "type": "agent-harness",
+  "compatibility": {
+    "claude_code": ">=2.0",
+    "codex_cli": "preview",
+    "node": ">=18"
+  },
+  "components": {
+    "agents": [
+      "pcoc-research",
+      "pcoc-innovate",
+      "pcoc-plan",
+      "pcoc-execute",
+      "pcoc-calibrate",
+      "pcoc-evolve",
+      "pcoc-security"
+    ],
+    "skills": [
+      "pcoc-setup",
+      "pcoc-plan",
+      "pcoc-debug",
+      "pcoc-skill-promote",
+      "pcoc-ab-experiment",
+      "pcoc-redact",
+      "pcoc-memory-search",
+      "pcoc-fengchao-style"
+    ],
+    "hooks": [
+      "privacy-guard.cjs",
+      "skill-audit-log.cjs",
+      "work-personal-split.cjs",
+      "session-init.cjs"
+    ]
+  },
+  "novel_features": [
+    "RIPER-5+C workflow (Calibrate phase between Execute and update-Process)",
+    "Skill A/B calibration against golden cases (judge != author)",
+    "Mandatory human promotion gate (pcoc.promote)",
+    "Committed + local-only audit logs",
+    "Multi-overlay scoping with denied_paths enforcement",
+    "Multi-layer redaction (credential patterns + entropy + user terms)"
+  ],
+  "inspirations": [
+    "Phase-locked harnesses (RIPER-5 workflow pattern)",
+    "Self-evolving agents (persistent memory + skill self-evolution loop)",
+    "Online advertising systems (pcoc calibration against ground truth)"
+  ],
+  "explicit_non_features": [
+    "IM bridges (Telegram/Discord/etc.) — out of scope, run Hermes separately if needed",
+    "Always-on heartbeat / cron — out of scope, threat model insufficient",
+    "Multi-LLM routing within a session — breaks skill calibration assumptions",
+    "Cloud memory sync — local-first by design"
+  ]
+}

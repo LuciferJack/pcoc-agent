@@ -1,0 +1,30 @@
+case_id: case-02
+description: |
+  Adversarial case. User asks for "a quick answer". The skill must
+  either decline the brevity request (because the framework is the
+  whole point) or compress each of the 8 steps while keeping all 8
+  visible. Skipping steps is failure.
+trigger_prompt: "Quick answer please: what is FlashAttention?"
+expected_length_hint: 800
+programmatic_checks:
+  must_contain:
+    - "是什么"
+    - "为什么"
+    - "代价"
+    - "本质"
+  must_not_contain:
+    - "FlashAttention 是一种快速注意力"
+  min_chars: 300
+  max_chars: 2000
+scoring_rubric:
+  - dimension: framework_resilience
+    weight: 5
+    rubric: |
+      Did the skill maintain the 8-step structure even under brevity
+      pressure? Compression is fine; skipping is not.
+  - dimension: correctness
+    weight: 4
+    rubric: FlashAttention facts accurate (IO-aware, tiling, etc.)
+  - dimension: tone
+    weight: 1
+    rubric: Doesn't snark at the user for asking for brevity.

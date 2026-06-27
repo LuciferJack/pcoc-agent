@@ -1,0 +1,56 @@
+name: example
+visibility: shareable
+description: |
+  This is the only overlay committed to the public repo. It serves as
+  a TEMPLATE you copy when creating your own overlays. Real overlays
+  live in this same directory but are gitignored.
+
+  To use as a starting point:
+    cp -r overlays/example overlays/my-work
+    $EDITOR overlays/my-work/overlay.yaml
+    ln -sfn my-work overlays/_active
+
+# Paths the agent may freely read in this overlay.
+# Use absolute paths or ~ (which the hooks expand to $HOME).
+allowed_paths:
+  - ~/repos/example-project
+
+# Paths the agent must refuse even if the user asks.
+# The defaults below are sensible for any overlay; KEEP them and add
+# your overlay-specific cross-boundary denials.
+denied_paths:
+  - ~/.ssh
+  - ~/.aws
+  - ~/.gnupg
+  - ~/.kube
+  - ~/.docker
+  - ~/.anthropic
+  - ~/.openai
+  - ~/.config/gh
+  - ~/.config/git-credentials
+  - ~/.okx
+  - ~/.binance
+
+# Core skills available in this overlay.
+inherited_skills:
+  - pcoc-plan
+  - pcoc-debug
+  - pcoc-fengchao-style
+  - pcoc-redact
+  - pcoc-memory-search
+
+# Overlay-specific skills (none in the template; add your own here).
+local_skills: []
+
+# Path to local sensitive-terms file. NEVER commit the file itself.
+# Create it at first run: mkdir -p ~/.pcoc && touch this path.
+sensitive_terms_file: ~/.pcoc/sensitive-terms.example.local.txt
+
+# Memory partition name. Cross-partition memory queries require
+# explicit override via pcoc.memory-search --partition.
+memory_partition: example
+
+# Optional always-on tasks. OFF by default — only enable if you've
+# read docs/PRIVACY.md and understand the threat model.
+heartbeat:
+  enabled: false

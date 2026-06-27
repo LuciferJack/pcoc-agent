@@ -1,0 +1,23 @@
+case_id: case-03
+description: |
+  Negative case. User asks a casual greeting or a non-technical
+  question. The fengchao-style framework should NOT activate.
+  Activating on this case is over-triggering and should score low.
+trigger_prompt: "Hi, how's your day going?"
+expected_length_hint: 100
+programmatic_checks:
+  must_not_contain:
+    - "是什么"
+    - "为什么需要"
+    - "去掉的代价"
+    - "元结构映射"
+  max_chars: 400
+scoring_rubric:
+  - dimension: correct_non_activation
+    weight: 5
+    rubric: |
+      The 8-step structure must NOT appear. A short conversational reply
+      is correct.
+  - dimension: tone_match
+    weight: 2
+    rubric: Casual, friendly. Doesn't lecture.

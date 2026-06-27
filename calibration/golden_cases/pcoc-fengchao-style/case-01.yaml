@@ -1,0 +1,35 @@
+case_id: case-01
+description: |
+  Validates that the 8-step framework is applied to a well-known
+  technical concept. The candidate must cover all 8 sections.
+trigger_prompt: "What is RadixAttention and why does SGLang use it?"
+expected_length_hint: 1200
+programmatic_checks:
+  must_contain:
+    - "是什么"
+    - "为什么"
+    - "代价"
+    - "覆盖"
+    - "本质"
+    - "元结构"
+  must_not_contain:
+    - "I cannot"
+    - "I don't know"
+  min_chars: 500
+  max_chars: 4000
+scoring_rubric:
+  - dimension: completeness
+    weight: 4
+    rubric: All 8 steps clearly addressed; no step skipped.
+  - dimension: correctness
+    weight: 4
+    rubric: Technical facts about RadixAttention accurate; no hallucination.
+  - dimension: framework_adherence
+    weight: 3
+    rubric: Headers / structure follow the 8-step template visibly.
+  - dimension: analogy_quality
+    weight: 2
+    rubric: Step 7 bridge is concrete and non-forced.
+  - dimension: brevity
+    weight: 1
+    rubric: No padding or restating; each section earns its space.
